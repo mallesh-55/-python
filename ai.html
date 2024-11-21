@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Simple AI Chatbot</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      background-color: #f0f0f0;
+    }
+
+    #chat-container {
+      width: 400px;
+      height: 500px;
+      background-color: #ffffff;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    #chat-box {
+      padding: 20px;
+      height: 80%;
+      overflow-y: auto;
+      border-bottom: 1px solid #ddd;
+    }
+
+    #user-input {
+      width: 80%;
+      padding: 10px;
+      margin: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+
+    #send-button {
+      padding: 10px;
+      margin-left: 10px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    #send-button:hover {
+      background-color: #45a049;
+    }
+
+    .message {
+      margin-bottom: 15px;
+    }
+
+    .user-message {
+      text-align: right;
+    }
+
+    .ai-message {
+      text-align: left;
+      color: #333;
+    }
+  </style>
+</head>
+<body>
+  <div id="chat-container">
+    <div id="chat-box">
+      <div id="chat-output"></div>
+    </div>
+    <input type="text" id="user-input" placeholder="Ask me anything..." />
+    <button id="send-button">Send</button>
+  </div>
+
+  <script>
+    // Get references to the DOM elements
+    const sendButton = document.getElementById('send-button');
+    const userInput = document.getElementById('user-input');
+    const chatOutput = document.getElementById('chat-output');
+
+    // Add event listener for the 'Send' button click
+    sendButton.addEventListener('click', function() {
+      const userMessage = userInput.value.trim();
+      if (userMessage === '') return;
+
+      // Display the user's message
+      displayMessage(userMessage, 'user');
+      
+      // Clear the input box after the user sends a message
+      userInput.value = '';
+
+      // Get the AI response and display it
+      const aiResponse = getAIResponse(userMessage);
+      displayMessage(aiResponse, 'ai');
+    });
+
+    // Simple AI responses based on keywords
+    function getAIResponse(userMessage) {
+      const lowerMessage = userMessage.toLowerCase();
+
+      // Predefined responses for specific words or phrases
+      if (lowerMessage.includes('hello') || lowerMessage.includes('hi')) {
+        return "Hello! How can I assist you today?";
+      }
+      if (lowerMessage.includes('how are you')) {
+        return "I'm just a program, but I'm doing great! How about you?";
+      }
+      if (lowerMessage.includes('bye')) {
+        return "Goodbye! Have a great day!";
+      }
+      if (lowerMessage.includes('your name')) {
+        return "I am a simple AI chatbot. I don't have a name, but you can call me whatever you like!";
+      }
+
+      // Default response for unrecognized messages
+      return "I'm sorry, I didn't quite understand that. Can you ask something else?";
+    }
+
+    // Function to display messages in the chat
+    function displayMessage(message, sender) {
+      const messageDiv = document.createElement('div');
+      messageDiv.classList.add('message', sender === 'user' ? 'user-message' : 'ai-message');
+      messageDiv.textContent = message;
+      chatOutput.appendChild(messageDiv);
+      chatOutput.scrollTop = chatOutput.scrollHeight;  // Auto-scroll to the bottom
+    }
+  </script>
+</body>
+</html>
